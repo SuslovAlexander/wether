@@ -11,10 +11,14 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import WbCloudyIcon from "@mui/icons-material/WbCloudy";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
-const pages = ["home", "forecast"];
+const pages = [
+  { id: 1, name: "Сегодня", url: "home" },
+  { id: 2, name: "Прогноз", url: "forecast" },
+  { id: 3, name: "Настройки", url: "settings" },
+];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -27,13 +31,17 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
+  const location = useLocation();
+
+  const activePage = location.pathname.substring(1);
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <WbSunnyIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <WbCloudyIcon sx={{ display: { xs: "none", md: "flex" }, mr: 4 }} />
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", sm: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -63,45 +71,29 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page.id} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link to={`/${page}`}>{page}</Link>
+                    <Link to={`/${page.url}`}>{page.name}</Link>
                   </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.id}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  to={`/${page}`}
+                  style={{
+                    textDecoration: "none",
+                    color: page.url === activePage ? "#014361" : "white",
+                  }}
+                  to={`/${page.url}`}
                 >
-                  {page}
+                  {page.name}
                 </Link>
               </Button>
             ))}

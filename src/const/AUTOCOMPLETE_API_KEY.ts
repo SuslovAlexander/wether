@@ -1,0 +1,1 @@
+export const AUTOCOMPLETE_API_KEY = process.env.REACT_AUTOCOMPLETE_API_KEY;

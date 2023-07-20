@@ -1,5 +1,7 @@
+import { Container } from "@mui/material";
+
 const ForecastPage = () => {
-  return <div>ForecastPage</div>;
+  return <Container>ForecastPage</Container>;
 };
 
 export default ForecastPage;
